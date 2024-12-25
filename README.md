@@ -99,3 +99,44 @@ sudo apt install gunicorn
 ```bash
 gunicorn -b '127.0.0.1:8000' app:app 
 ```
+
+## jika ingin otomatis berjalan saat server dinyalakan
+masuk dan buat konfigurasi di
+```bash
+sudo nano /etc/systemd/system/gunicorn.service
+```
+saya nama i service saya gunicorn
+di isi dengan konfigurasi berikut
+```bash
+[Unit]
+Description=Gunicorn instance to serve Flask App
+After=network.target
+
+[Service]
+User=tuanvallen
+WorkingDirectory=/home/tuanvallen/encrypt-part2
+ExecStart=gunicorn -b '127.0.0.1:8000' app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+kemudian
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable <nama_layanan>.service
+
+```
+
+```bash
+sudo systemctl start <nama_layanan>.service
+sudo systemctl status <nama_layanan>.service
+
+```
+
+```bash
+sudo systemctl status <nama_layanan>.service
+```
+```bash
+sudo reboot
+```
